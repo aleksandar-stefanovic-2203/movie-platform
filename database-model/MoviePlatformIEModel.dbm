@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+ Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="1.2.3" use-changelog="false" max-obj-count="9"
+	 gen-disabled-objs-code="false" show-sys-schemas-rects="true"
+	 last-position="0,0" last-zoom="1" scene-rect="0,0,1716.28,1076.8"
+	 default-schema="public" default-owner="postgres"
+	 layers="Default layer"
+	 active-layers="0"
+	 layer-name-colors="#000000"
+	 layer-rect-colors="#b4b4b4"
+	 show-layer-names="false" show-layer-rects="false">
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layers="0" fill-color="#e1e1e1" name-color="#000000" sql-disabled="true">
+</schema>
+
+<table name="Movie" layers="0" collapse-mode="1" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="80" y="80"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="title" not-null="true">
+		<type name="varchar" length="100"/>
+	</column>
+	<column name="director">
+		<type name="varchar" length="100"/>
+	</column>
+	<column name="status">
+		<type name="varchar" length="100"/>
+	</column>
+	<constraint name="UQ_title" type="uq-constr" table="public.&quot;Movie&quot;">
+		<columns names="title" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="CK_status" type="ck-constr" table="public.&quot;Movie&quot;">
+			<expression> <![CDATA[status IN ('Trending', 'Rising', 'Falling', 'Classic')]]> </expression>
+	</constraint>
+	<constraint name="Movie_pk" type="pk-constr" table="public.&quot;Movie&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="User" layers="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1100" y="100"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="username" not-null="true">
+		<type name="varchar" length="100"/>
+	</column>
+	<column name="numberOfAwards" not-null="true" default-value="0">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="UQ_username" type="uq-constr" table="public.&quot;User&quot;">
+		<columns names="username" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="User_pk" type="pk-constr" table="public.&quot;User&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Genre" layers="0" collapse-mode="1" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1160" y="440"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="varchar" length="100"/>
+	</column>
+	<constraint name="UQ_genre_name" type="uq-constr" table="public.&quot;Genre&quot;">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="Genre_pk" type="pk-constr" table="public.&quot;Genre&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Tag" layers="0" collapse-mode="1" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1120" y="680"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="varchar" length="100"/>
+	</column>
+	<constraint name="UQ_tag_name" type="uq-constr" table="public.&quot;Tag&quot;">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="Tag_pk" type="pk-constr" table="public.&quot;Tag&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="WatchList" layers="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="640" y="20"/>
+
+	<customidxs object-type="column">
+		<object name="idM" index="1"/>
+		<object name="idU" index="0"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="Movie_fk" index="1"/>
+		<object name="User_fk" index="2"/>
+		<object name="WatchList_pk" index="0"/>
+	</customidxs></table>
+
+<relationship name="wants to be watched by" type="rel1n" layers="0"
+	 src-col-pattern="idM"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#6a178c"
+	 src-table="public.&quot;Movie&quot;"
+	 dst-table="public.&quot;WatchList&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION">
+	<label ref-type="name-label">
+		<position x="-7.05691" y="-5.52741"/>
+	</label>
+</relationship>
+
+<relationship name="wants to watch" type="rel1n" layers="0"
+	 src-col-pattern="idU"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#b66f6c"
+	 src-table="public.&quot;User&quot;"
+	 dst-table="public.&quot;WatchList&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION">
+	<label ref-type="name-label">
+		<position x="10.2953" y="-10.639"/>
+	</label>
+</relationship>
+
+<table name="MovieRating" layers="0" collapse-mode="1" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="640" y="220"/>
+	<column name="rating" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="date" not-null="true" default-value="GETDATE()">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="CK_rating" type="ck-constr" table="public.&quot;MovieRating&quot;">
+			<expression> <![CDATA[rating BETWEEN 1 AND 10]]> </expression>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="idM" index="1"/>
+		<object name="idU" index="0"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="MovieRating_pk" index="0"/>
+		<object name="Movie_fk" index="1"/>
+		<object name="User_fk" index="2"/>
+	</customidxs></table>
+
+<relationship name="is rated by" type="rel1n" layers="0"
+	 src-col-pattern="idM"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#0cd275"
+	 src-table="public.&quot;Movie&quot;"
+	 dst-table="public.&quot;MovieRating&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION"/>
+
+<relationship name="rated" type="rel1n" layers="0"
+	 src-col-pattern="idU"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#952f3a"
+	 src-table="public.&quot;User&quot;"
+	 dst-table="public.&quot;MovieRating&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION">
+	<label ref-type="name-label">
+		<position x="-1.16476" y="2.0773"/>
+	</label>
+</relationship>
+
+<table name="MovieGenre" layers="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="660" y="460"/>
+</table>
+
+<relationship name="has genre" type="rel1n" layers="0"
+	 src-col-pattern="idM"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#a3e889"
+	 src-table="public.&quot;Movie&quot;"
+	 dst-table="public.&quot;MovieGenre&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION"/>
+
+<relationship name="has movie" type="rel1n" layers="0"
+	 src-col-pattern="idG"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#7c7b1e"
+	 src-table="public.&quot;Genre&quot;"
+	 dst-table="public.&quot;MovieGenre&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION"/>
+
+<table name="MovieTag" layers="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="600" y="680"/>
+</table>
+
+<relationship name="is tagged by" type="rel1n" layers="0"
+	 src-col-pattern="idM"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#a06809"
+	 src-table="public.&quot;Movie&quot;"
+	 dst-table="public.&quot;MovieTag&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION"/>
+
+<relationship name="tags" type="rel1n" layers="0"
+	 src-col-pattern="idT"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 fk-idx-pattern="{st}_idx"
+	 custom-color="#588feb"
+	 src-table="public.&quot;Tag&quot;"
+	 dst-table="public.&quot;MovieTag&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+
+	upd-action="CASCADE"
+	del-action="NO ACTION"/>
+
+</dbmodel>
